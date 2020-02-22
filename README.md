@@ -20,13 +20,13 @@ to do this run ` python -m venv [name ofyour vertual environment]` in cmd or ter
 
   - run `source [path to your vertual environment]\bin\activate` to activate your virtual environment
 
-**1.  run  `pip install requirements.txt` to install requirements**
+**1.  run `pip install requirements.txt` to install requirements**
 
-**2. run `python manage.py collectstatic` **
+**2. run `python manage.py collectstatic`**
 
-**3. python manage.py makemigrations **
+**3. `python manage.py makemigrations`**
 
-**4. python manage.py migrate**
+**4. `python manage.py migrate`**
 
 ---
 ## To have better markdown code block
