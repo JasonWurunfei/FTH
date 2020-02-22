@@ -1,7 +1,11 @@
 from django.contrib import admin
 from markdownx.admin import MarkdownxModelAdmin
-from .models import MyModel
+from .models import BlogPost
 
 # Register your models here.
-admin.site.register(MyModel, MarkdownxModelAdmin)
+@admin.register(BlogPost)
+class BlogPostAdmin(MarkdownxModelAdmin):
+    list_display = ('title', 'created_date', 'mod_date')
+    list_filter = ('created_date', 'mod_date')
+    search_fields = ('title',)
 
