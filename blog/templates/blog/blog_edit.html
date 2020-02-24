@@ -3,7 +3,7 @@
 
 {% block content %}
   <div class="container mt-3">
-    <form method="POST" action="">
+    <form method="POST" action="{% url 'blog:new_blog' %}">
       {% csrf_token %}
       {{ form }}
       <input type="submit" value="post" class="btn btn-primary btn-lg">

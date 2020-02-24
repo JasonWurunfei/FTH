@@ -11,6 +11,15 @@
     <title>{% block title %}{% endblock %}</title>
   </head>
   <body>
+    <!-- Image and text -->
+    <nav class="navbar navbar-light bg-light">
+      <div class="container">
+        <a class="navbar-brand mb-0 h1" href="{% url 'blog:blog' %}">
+          <img src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2349859212,1053714951&fm=26&gp=0.jpg" width="30" height="30" class="d-inline-block align-top" alt="">
+          EpicForum 
+        </a>
+      </div>
+    </nav>
     {% block content %}
 
     {% endblock %}

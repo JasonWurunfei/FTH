@@ -1,4 +1,4 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 
 from .models import BlogPost
 from .forms import BlogForm
@@ -19,5 +19,12 @@ def blogDetailView(request, pk):
     return render(request, 'blog/post.html', {'post_detail': post_detail})
 
 def newBlogView(request):
-    form = BlogForm()
+    if request.method == "POST":
+        form = BlogForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('blog:blog')
+    else:
+        form = BlogForm()
+
     return render(request, 'blog/blog_edit.html', {'form': form})
