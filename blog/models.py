@@ -6,6 +6,8 @@ from markdownx.utils import markdownify
 
 from django.utils import timezone
 from datetime import datetime
+
+
 class DateCreateModMixin(models.Model):
     class Meta:
         abstract = True
@@ -16,10 +18,6 @@ class DateCreateModMixin(models.Model):
 class BlogPost(DateCreateModMixin):
     title = models.CharField(max_length=50)
     body = MarkdownxField()
-    background_image = models.ImageField(
-            default='img/header.jpg',
-            upload_to=datetime.now().strftime('backgrounds/%Y/%m/%d')
-         )
 
     def formatted_markdown(self):
         return markdownify(self.body)

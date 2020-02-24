@@ -3,18 +3,18 @@
 
 {% block content %}
 
-{% csrf_token %}
+  {% for post in posts %}
 
-    {% for post in posts %}
+    <div class="card shadow bg-white">
+      <div class="card-body">
+        <h1 class="card-title"> <a href="{% url 'blog:post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
+        <p class="card-text"> {{ post.body_summary|striptags }} </p>
+        <div>{{ post.created_date }}</div>
+      </div>
+    </div>
 
-        <div class="card shadow bg-white">
-            <div class="card-body">
-                <h1 class="card-title"> <a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
-                <p class="card-text"> {{ post.body_summary|striptags }} </p>
-                <div> {{ post.created_date }}</div>
-            </div>
-        </div>
+  {% endfor %}
 
-    {% endfor %}
+  <a href="{% url 'blog:new_blog' %}" class="btn btn-primary btn-lg" role="button" aria-pressed="false">post a blog</a>
 
 {% endblock %}

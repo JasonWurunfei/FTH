@@ -24,7 +24,6 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('blog/<int:pk>/', views.post, name='post_detail'),
-    path('blog/', views.blog_posts, name='blog'),
+    path('blog/', include(('blog.urls', 'blog'), namespace='blog')),
     url(r'^markdownx/', include('markdownx.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
