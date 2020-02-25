@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}My Fake Instagram{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <div class="row">
+
+      <div class="col">
+        <form method="post" class="form-group" action="{% url 'accounts:register' %}">
+            {% csrf_token %}
+            {{ form|crispy }}
+            <button type="submit" class="btn btn-success">Register</button>
+        </form>
+      </div>
+      <div class="col-4"></div>
+
+    </div>
+  </div>
+  <style type="text/css">
+    .asteriskField {
+      display: none;
+    }
+  </style>
+{% endblock %}
+
