@@ -13,7 +13,7 @@ class DateCreateModMixin(models.Model):
         abstract = True
 
     created_date = models.DateTimeField(default=timezone.now)
-    mod_date = models.DateTimeField(blank=True, null=True)
+    mod_date = models.DateTimeField(default=timezone.now, blank=True, null=True)
 
 class BlogPost(DateCreateModMixin):
     title = models.CharField(max_length=50)
