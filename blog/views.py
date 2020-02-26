@@ -25,6 +25,8 @@ def newBlogView(request):
         if form.is_valid():
             form.save()
             return redirect('blog:blog')
+        else:
+            print(request.POST)
     else:
         form = BlogForm()
 

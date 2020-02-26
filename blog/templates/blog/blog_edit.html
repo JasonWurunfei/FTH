@@ -3,17 +3,45 @@
 {% load crispy_forms_tags %}
 {% block content %}
   <div class="container mt-1">
-    <form method="POST" action="{% url 'blog:new_blog' %}">
+    <form method="POST" action="{% url 'blog:new_blog' %}" id="editing">
       {% csrf_token %}
       {% crispy form %}
-      <h5>Wanna upload markdown file? click <a href="#">here</a></h5>
-      <input type="submit" name="Submit" class="btn btn-primary btn-lg">
+
+      <div id="upload">
+        <h5>Wanna upload markdown file?</h5>
+        <div class="alert alert-warning mt-2" role="alert">
+          You must add images again to successfully load images. If the markdown preview doesn't show up, you can try to hit an enter in the textarea.
+        </div>
+        <div class="col-md-4 input-group mb-3">
+          <input type="file" name="file"  id="mdFile" class="form-control" onchange="checkFile(this)">
+        </div>
+      </div>
+
     </form>
   </div>
+
   {{ form.media }}
   <style type="text/css">
     .asteriskField {
       display: none;
     }
   </style>
+  <script>
+    function checkFile(node) {
+      let fr = new FileReader()
+      fr.readAsText(node.files[0])
+      fr.onload = function(e) {
+        document.getElementById('id_body').value = e.target.result
+      }
+      
+    }
+
+    window.onload = function(){
+      let edit = document.getElementById("editing");
+      let upload = document.getElementById("upload");
+      let form_bt = document.getElementById("submit-id-submit");
+      edit.insertBefore(upload, form_bt);
+    }
+
+  </script>
 {% endblock %}
