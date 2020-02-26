@@ -35,7 +35,7 @@ to do this run ` python -m venv [name ofyour vertual environment]` in cmd or ter
 
 **It is suggested that you use mistletoe as your markdown coverter**
 
-go to `python3.5/site-packages/markdownx/utils.py`
+go to `Lib/site-packages/markdownx/utils.py`
  Find function `markdownify`
 
 which would look like this:
