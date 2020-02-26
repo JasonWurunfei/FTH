@@ -6,6 +6,7 @@
 - Python 3.8
 - Django 3.0
 - mistletoe 0.7.2
+- django-crispy-forms 1.8.1
 ---
 ## Installation
 
