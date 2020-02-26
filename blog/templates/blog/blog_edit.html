@@ -1,13 +1,19 @@
 {% extends 'base.html' %}
 {% load static %}
-
+{% load crispy_forms_tags %}
 {% block content %}
-  <div class="container mt-3">
+  <div class="container mt-1">
     <form method="POST" action="{% url 'blog:new_blog' %}">
       {% csrf_token %}
-      {{ form }}
-      <input type="submit" value="post" class="btn btn-primary btn-lg">
+      {% crispy form %}
+      <h5>Wanna upload markdown file? click <a href="#">here</a></h5>
+      <input type="submit" name="Submit" class="btn btn-primary btn-lg">
     </form>
   </div>
   {{ form.media }}
+  <style type="text/css">
+    .asteriskField {
+      display: none;
+    }
+  </style>
 {% endblock %}

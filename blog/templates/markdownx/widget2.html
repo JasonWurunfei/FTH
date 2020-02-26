@@ -1,17 +1,18 @@
-<div class="markdownx row">
-
+<div class="markdownx">
   <div class="row">
-    <div class="col-md">
+    <div class="col-6">
       {% include 'django/forms/widgets/textarea.html' %}
     </div>
 
-    
-    <div class="col-md">
-      <div class="container" style="background-color: #eee">
-        <div class="markdownx-preview"></div>
-      </div>
+    <div class="col-6">
+      <div class="markdownx-preview markd-show"></div>
     </div>
   </div>
-
-
 </div>
+<style type="text/css">
+  .markd-show {
+    background-color: #ffffe6;
+    min-width: 500px;
+    min-height: 500px;
+  }
+</style>
