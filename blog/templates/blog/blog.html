@@ -29,8 +29,10 @@
 
       <div class="card shadow bg-white mt-1">
         <div class="card-body">
+
           <h1 class="card-title"> <a href="{% url 'blog:post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
           <p class="card-text"> {{ post.body_summary|striptags }} </p>
+          <div>{{ post.user }}</div>
           <div>{{ post.created_date }}</div>
         </div>
       </div>

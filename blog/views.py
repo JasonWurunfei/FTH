@@ -2,6 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import BlogPost
 from .forms import BlogForm
+from django.contrib.auth.models import User
 
 def blogsView(request):
     """Display all blog posts"""
@@ -18,8 +19,13 @@ def blogDetailView(request, pk):
 
     return render(request, 'blog/post.html', {'post_detail': post_detail})
     
+    
 @login_required
 def newBlogView(request):
+    user = User.objects.get(id=request.user.id)
+    initial_data = {
+        'user': user,
+    }
     if request.method == "POST":
         form = BlogForm(request.POST)
         if form.is_valid():
@@ -28,6 +34,6 @@ def newBlogView(request):
         else:
             print(request.POST)
     else:
-        form = BlogForm()
+        form = BlogForm(initial=initial_data)
 
     return render(request, 'blog/blog_edit.html', {'form': form})

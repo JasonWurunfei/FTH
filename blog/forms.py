@@ -12,6 +12,7 @@ class BlogForm(ModelForm):
         super().__init__(*args, **kwargs)
         self.helper = FormHelper()
         self.helper.layout = Layout(
+            'user',
             'title',
             'body',
             'created_date',
@@ -19,6 +20,7 @@ class BlogForm(ModelForm):
              Submit('submit', 'Submit', css_class='btn btn-primary btn-lg'),
         )
         self.fields['body'].label = ''
+        self.fields['user'].widget = forms.HiddenInput()
         self.fields['created_date'].widget = forms.HiddenInput()
         self.fields['mod_date'].widget = forms.HiddenInput()
         self.fields['body'].widget = MarkdownxWidget(
@@ -33,4 +35,4 @@ class BlogForm(ModelForm):
 
     class Meta:
         model = BlogPost
-        fields = ['title', 'body', 'created_date', 'mod_date']
+        fields = ['user', 'title', 'body', 'created_date', 'mod_date']

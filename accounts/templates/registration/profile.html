@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+
+{% block title %}My Fake Instagram{% endblock %}
+{% block nav %}
+  <nav class="navbar navbar-light bg-light mb-2">
+    <div class="container">
+      <a class="navbar-brand mb-0 h1" href="{% url 'blog:blog' %}">
+        <img src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2349859212,1053714951&fm=26&gp=0.jpg" width="30" height="30" class="d-inline-block align-top" alt="">
+        EpicForum 
+      </a>
+      <ul class="navbar-nav ml-auto mr-2">
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'accounts:logout' %}">Logout <span class="sr-only">(current)</span></a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+{% endblock %}
+{% block content %}
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-3">
+        <div class="container" style="background-color: #ff0000">
+          <div class="list-group">
+            <button type="button" class="list-group-item list-group-item-action" onclick="location.href=`{% url 'blog:blog' %}`">Go view blog</button>
+            <button type="button" class="list-group-item list-group-item-action" onclick="location.href=`{% url 'blog:blog' %}`">My blogs</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-9">
+        <div class="container" style="background-color: #00ff00; margin-left: 0px;">
+          <h1>welcome! {{ user.username }}</h1>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+{% endblock %}

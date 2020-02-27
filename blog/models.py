@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth.models import User
 
 # Create your models here.
 from markdownx.models import MarkdownxField
@@ -13,11 +14,12 @@ class DateCreateModMixin(models.Model):
         abstract = True
 
     created_date = models.DateTimeField(default=timezone.now)
-    mod_date = models.DateTimeField(default=timezone.now, blank=True, null=True)
+    mod_date     = models.DateTimeField(default=timezone.now, blank=True, null=True)
 
 class BlogPost(DateCreateModMixin):
-    title = models.CharField(max_length=50)
-    body = MarkdownxField()
+    user    = models.ForeignKey(User, on_delete=models.CASCADE)
+    title   = models.CharField(max_length=50)
+    body    = MarkdownxField()
 
     def formatted_markdown(self):
         return markdownify(self.body)
