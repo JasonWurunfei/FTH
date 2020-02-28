@@ -4,6 +4,10 @@ from django.contrib.auth.models import User
 
 class RegisterForm(UserCreationForm):
     email = forms.EmailField()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs = {'autocomplete': 'off'}
+        self.fields['email'].widget.attrs = {'autocomplete': 'off'}
 
     class Meta:
         model = User

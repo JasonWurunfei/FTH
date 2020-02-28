@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
+
 {% block title %}My Fake Instagram{% endblock %}
 
 {% block content %}
@@ -22,5 +23,48 @@
       display: none;
     }
   </style>
+
 {% endblock %}
 
+
+{% block javascript %}
+{% load static %}
+<script src="{% static 'js/jquery-3.4.1.js'%}"></script>
+<script> 
+  $("#id_username").change(function () {
+    var username = $(this).val();
+
+    $.ajax({
+      url: '/accounts/ajax/validate_username/',
+      data: {
+        'username': username
+      },
+      dataType: 'json',
+      success: function (data) {
+        if (data.is_taken) {
+          alert(data.error_message);
+        }
+      }
+    });
+
+  });
+
+  $("#id_email").change(function () {
+    var email = $(this).val();
+
+    $.ajax({
+      url: '/accounts/ajax/validate_email/',
+      data: {
+        'email': email
+      },
+      dataType: 'json',
+      success: function (data) {
+        if (data.is_taken) {
+          alert(data.error_message);
+        }
+      }
+    });
+
+  });
+</script>
+{% endblock %}

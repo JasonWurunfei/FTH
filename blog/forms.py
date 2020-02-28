@@ -19,6 +19,7 @@ class BlogForm(ModelForm):
             'mod_date',
              Submit('submit', 'Submit', css_class='btn btn-primary btn-lg'),
         )
+        self.fields['title'].widget = forms.TextInput(attrs={'autocomplete': 'off'})
         self.fields['body'].label = ''
         self.fields['user'].widget = forms.HiddenInput()
         self.fields['created_date'].widget = forms.HiddenInput()
