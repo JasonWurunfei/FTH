@@ -5,6 +5,7 @@ from .forms import LoginForm
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
+from blog.models import BlogPost
 
 # Create your views here.
 def registerView(request):
@@ -18,6 +19,7 @@ def registerView(request):
 
     return render(request, 'registration/register.html', context={'form': form})
 
+
 class MyLoginView(LoginView):
     form_class = LoginForm
 
@@ -25,9 +27,9 @@ class MyLoginView(LoginView):
 def profileView(request, pk):
     """Display user profile"""
 
-    user = get_object_or_404(User, pk=pk)
-
-    return render(request, 'registration/profile.html', {'user': user})
+    user    = get_object_or_404(User, pk=pk)
+    posts   = BlogPost.objects.filter(user=user)
+    return render(request, 'registration/profile.html', {'user': user, 'posts':posts})
 
 
 
