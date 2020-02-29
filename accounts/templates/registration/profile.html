@@ -58,7 +58,7 @@
 
           <div class="container" id="demo-area">
             {% for post in posts %}
-              <div class="card shadow bg-white mt-1">
+              <div class="card shadow bg-white mt-1" id="blog-{{ post.id }}">
                 <div class="card-body">
                   <h1 class="card-title"> <a href="{% url 'blog:post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
                   <p class="card-text"> {{ post.body_summary|striptags }} </p>
@@ -69,7 +69,7 @@
                     </div>
                     <div class="col-3 ml-auto">
                       <button class="btn btn-primary" onclick="location.href=`{% url 'blog:blog' %}`">edit</button>
-                      <button class="btn btn-danger" id="deletion">delet</button>
+                      <button class="btn btn-danger deletion" value="{{ post.id }}">delet</button>
                     </div>
                   </div>
                 </div>
@@ -88,22 +88,41 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js"></script>
 
 <script>
-  $('#deletion').on("click",function(){
-      bootbox.confirm({
-        title: "Destroy planet?",
-        message: "Do you want to activate the Deathstar now? This cannot be undone.",
-        buttons: {
-            cancel: {
-                label: '<i class="fa fa-times"></i> Cancel'
+  $('.deletion').on("click",function(){
+    let blogId = this.value
+    console.log(blogId)
+    bootbox.confirm({
+      title: "Destroy this blog?",
+      message: "Do you want to destroy this blog? This cannot be undone.",
+      buttons: {
+          cancel: {
+              label: '<i class="fa fa-times"></i> Cancel'
+          },
+          confirm: {
+              label: '<i class="fa fa-check"></i> Confirm'
+          }
+      },
+      callback: function (result) {
+        if(result){
+          $.ajax({
+            url: '/accounts/ajax/delet_blog/',
+            data: {
+              'blogId': blogId
             },
-            confirm: {
-                label: '<i class="fa fa-check"></i> Confirm'
+            dataType: 'json',
+            success: function (data) {
+              bootbox.alert({
+                message: "Blog successfully deleted",
+                backdrop: true,
+                callback: function () {
+                  $('#blog-'+data['blogId']).remove()
+                }
+              });
             }
-        },
-        callback: function (result) {
-            console.log('This was logged in the callback: ' + result);
+          });
         }
-      });
+      }
+    });
   });
 </script>
 {% endblock %}

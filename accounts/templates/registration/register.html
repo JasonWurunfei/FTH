@@ -32,7 +32,7 @@
 <script src="{% static 'js/jquery-3.4.1.js'%}"></script>
 <script> 
   $("#id_username").change(function () {
-    var username = $(this).val();
+    let username = $(this).val();
 
     $.ajax({
       url: '/accounts/ajax/validate_username/',
@@ -50,7 +50,7 @@
   });
 
   $("#id_email").change(function () {
-    var email = $(this).val();
+    let email = $(this).val();
 
     $.ajax({
       url: '/accounts/ajax/validate_email/',

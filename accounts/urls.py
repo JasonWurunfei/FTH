@@ -1,5 +1,5 @@
 from django.urls import path, include
-from .views import registerView, MyLoginView, profileView, validate_username, validate_email
+from .views import registerView, MyLoginView, profileView, validate_username, validate_email, delet_blog
 
 app_name = 'accounts'
 urlpatterns = [
@@ -9,4 +9,5 @@ urlpatterns = [
     path('register/', registerView, name='register'),
     path('ajax/validate_username/', validate_username, name='validate_username'),
     path('ajax/validate_email/', validate_email, name='validate_email'),
+    path('ajax/delet_blog/', delet_blog, name='delet_blog'),
 ]
