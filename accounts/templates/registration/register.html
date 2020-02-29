@@ -18,6 +18,7 @@
 
     </div>
   </div>
+  
   <style type="text/css">
     .asteriskField {
       display: none;
@@ -30,7 +31,7 @@
 {% block javascript %}
 {% load static %}
 <script src="{% static 'js/jquery-3.4.1.js'%}"></script>
-<script> 
+<script>
   $("#id_username").change(function () {
     let username = $(this).val();
 

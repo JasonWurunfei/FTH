@@ -68,7 +68,7 @@
                       <div>{{ post.created_date }}</div>                      
                     </div>
                     <div class="col-3 ml-auto">
-                      <button class="btn btn-primary" onclick="location.href=`{% url 'blog:blog' %}`">edit</button>
+                      <button class="btn btn-primary" onclick="location.href=`{% url 'blog:edit_blog' pk=post.pk %}`">edit</button>
                       <button class="btn btn-danger deletion" value="{{ post.id }}">delet</button>
                     </div>
                   </div>
