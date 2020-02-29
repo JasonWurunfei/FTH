@@ -3,7 +3,7 @@
 {% load crispy_forms_tags %}
 {% block content %}
   <div class="container mt-1">
-    <form method="POST" action="{% url 'blog:new_blog' %}" id="editing">
+    <form method="POST" action="{{ post_url }}" id="editing">
       {% csrf_token %}
       {% crispy form %}
 
@@ -26,6 +26,10 @@
       display: none;
     }
   </style>
+
+{% endblock %}
+
+{% block javascript %}
   <script>
     function checkFile(node) {
       let fr = new FileReader()

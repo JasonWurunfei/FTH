@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block title %}My Fake Instagram{% endblock %}
+{% block nav %}
+  <nav class="navbar navbar-light bg-light mb-2">
+    <div class="container">
+      <a class="navbar-brand mb-0 h1" href="{% url 'blog:blog' %}">
+        <img src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2349859212,1053714951&fm=26&gp=0.jpg" width="30" height="30" class="d-inline-block align-top" alt="">
+        EpicForum 
+      </a>
+      <ul class="navbar-nav ml-auto mr-2">
+        <li class="nav-item active">
+          <a class="nav-link" href="{% url 'accounts:logout' %}">Logout <span class="sr-only">(current)</span></a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+{% endblock %}
+{% block content %}
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-3">
+        <div style="min-height: 8%;"></div>
+        <div class="container">
+          <div class="list-group">
+            <button type="button" class="list-group-item list-group-item-action mt-2" onclick="location.href=`{% url 'blog:blog' %}`">Go view blog</button>
+            <button type="button" class="list-group-item list-group-item-action" onclick="location.href=`{% url 'blog:blog' %}`">My blogs</button>
+            <button type="button" class="list-group-item list-group-item-action" onclick="location.href=`{% url 'blog:blog' %}`">Files</button>
+            <button type="button" class="list-group-item list-group-item-action mb-2" onclick="location.href=`{% url 'blog:blog' %}`">Collection</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-9">
+        <div class="container" style="margin-left: 0px;">
+          <div class="container">
+
+            <ul class="nav" aria-label="breadcrumb">
+              <li class="nav-item  mt-2">
+                <a class="nav-link active" href="#">Active</a>
+              </li>
+              <li class="nav-item mt-2">
+                <a class="nav-link" href="#">Link</a>
+              </li>
+              <li class="nav-item mt-2">
+                <a class="nav-link" href="#">Link</a>
+              </li>
+              <li class="nav-item ml-auto mt-2">
+                <form class="form-inline my-lg-0">
+                  <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                  <button class="btn btn-outline-success my-sm-0" type="submit">Search</button>
+                </form>
+              </li>
+            </ul>
+          
+          </div>
+
+          <h1>welcome! {{ user.username }}</h1>
+
+          <div class="container" id="demo-area">
+            {% for post in posts %}
+              <div class="card shadow bg-white mt-1" id="blog-{{ post.id }}">
+                <div class="card-body">
+                  <h1 class="card-title"> <a href="{% url 'blog:post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
+                  <p class="card-text"> {{ post.body_summary|striptags }} </p>
+                  <div class="row">
+                    <div class="col">
+                      <div>{{ post.user }}</div>
+                      <div>{{ post.created_date }}</div>                      
+                    </div>
+                    <div class="col-3 ml-auto">
+                      <button class="btn btn-primary" onclick="location.href=`{% url 'blog:edit_blog' pk=post.pk %}`">edit</button>
+                      <button class="btn btn-danger deletion" value="{{ post.id }}">delet</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block javascript %}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.4.0/bootbox.min.js"></script>
+
+<script>
+  $('.deletion').on("click",function(){
+    let blogId = this.value
+    console.log(blogId)
+    bootbox.confirm({
+      title: "Destroy this blog?",
+      message: "Do you want to destroy this blog? This cannot be undone.",
+      buttons: {
+          cancel: {
+              label: '<i class="fa fa-times"></i> Cancel'
+          },
+          confirm: {
+              label: '<i class="fa fa-check"></i> Confirm'
+          }
+      },
+      callback: function (result) {
+        if(result){
+          $.ajax({
+            url: '/accounts/ajax/delet_blog/',
+            data: {
+              'blogId': blogId
+            },
+            dataType: 'json',
+            success: function (data) {
+              bootbox.alert({
+                message: "Blog successfully deleted",
+                backdrop: true,
+                callback: function () {
+                  $('#blog-'+data['blogId']).remove()
+                }
+              });
+            }
+          });
+        }
+      }
+    });
+  });
+</script>
+{% endblock %}

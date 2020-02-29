@@ -13,8 +13,8 @@
     </div>
 </header>
 
-<div id="blog">
+<div id="blog" class="container">
     <p class="card-text" id="post"> {{ post_detail.formatted_markdown|safe }} </p>
-    <div class="text-muted text-right" style="margin-top: 4rem"> {{ post_detail.created_date }}</div>
+    <div class="text-muted text-right" style="margin-top: 4rem"> {{ post_detail.user }} {{ post_detail.created_date }}</div>
 </div>
 {% endblock %}
