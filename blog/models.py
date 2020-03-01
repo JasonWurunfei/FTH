@@ -22,6 +22,7 @@ class BlogPost(DateCreateModMixin):
     body    = MarkdownxField()
 
     def formatted_markdown(self):
+        
         return markdownify(self.body)
 
     def body_summary(self):

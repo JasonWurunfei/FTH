@@ -41,12 +41,13 @@ INSTALLED_APPS = [
 
 
     # third part packages
-    'markdownx',
+
     'crispy_forms',
 
     # system app
     'blog.apps.BlogConfig',
     'accounts.apps.AccountsConfig',
+    'markdownx',
 ]
 
 MIDDLEWARE = [
@@ -141,6 +142,7 @@ LOGOUT_REDIRECT_URL = '/blog/'
 # Third party packages variables
 from datetime import datetime
 MARKDOWNX_MEDIA_PATH = datetime.now().strftime('markdownx/%Y/%m/%d')
+MARKDOWNX_MARKDOWN_EXTENSIONS = ['markdown.extensions.extra', 'markdown.extensions.codehilite',]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
