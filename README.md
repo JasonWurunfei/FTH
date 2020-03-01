@@ -5,7 +5,7 @@
 
 - Python 3.8
 - Django 3.0
-- mistletoe 0.7.2
+- Pygments==2.5.2
 - django-crispy-forms 1.8.1
 ---
 ## Installation
@@ -29,35 +29,6 @@ to do this run ` python -m venv [name ofyour vertual environment]` in cmd or ter
 **3. `python manage.py makemigrations`**
 
 **4. `python manage.py migrate`**
-
----
-## To have better markdown code block
-
-**It is suggested that you use mistletoe as your markdown coverter**
-
-go to `Lib/site-packages/markdownx/utils.py`
- Find function `markdownify`
-
-which would look like this:
-
-```python
-def markdownify(content):
-    md = markdown(
-        text=content,
-        extensions=MARKDOWNX_MARKDOWN_EXTENSIONS,
-        extension_configs=MARKDOWNX_MARKDOWN_EXTENSION_CONFIGS
-    )
-    return md
-```
-
-Change this to:
-
-```python
-def markdownify(content):
-    import mistletoe
-    rendered = mistletoe.markdown(str(content))
-    return rendered 
-```
 
 ---
 
