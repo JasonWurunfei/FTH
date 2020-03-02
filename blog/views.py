@@ -2,7 +2,11 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from .models import BlogPost
 from .forms import BlogForm
+
 from django.contrib.auth.models import User
+from likes.models import LikesAndDislikes
+from django.contrib.contenttypes.models import ContentType
+
 from datetime import datetime
 
 def blogsView(request):
@@ -15,10 +19,34 @@ def blogsView(request):
 
 def blogDetailView(request, pk):
     """Display specific blog posts"""
-
+    user   = request.user
     post_detail = get_object_or_404(BlogPost, pk=pk)
+    blogPostType = ContentType.objects.get(app_label='blog', model='blogpost')
+    res = LikesAndDislikes.objects.filter(content_type=blogPostType, object_id=pk)
+    num_of_likes = res.filter(like_type=False).count()
+    num_of_dislikes = res.filter(like_type=True).count()
 
-    return render(request, 'blog/post.html', {'post_detail': post_detail})
+    context = {
+        'post_detail'   : post_detail,
+        'num_of_likes'  : num_of_likes,
+        'num_of_dislikes'  : num_of_dislikes,
+        'liked': False,
+        'disliked': False,
+    }
+
+    is_done = LikesAndDislikes.objects.filter(
+        user=user,
+        content_type=blogPostType,
+        object_id=pk
+    )
+
+    if is_done:
+        if is_done.get().like_type == False:
+            context['liked'] = True
+        else:
+            context['disliked'] = True
+
+    return render(request, 'blog/post.html', context)
     
     
 @login_required
