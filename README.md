@@ -23,7 +23,7 @@ to do this run ` python -m venv [name ofyour vertual environment]` in cmd or ter
 
   - run `source [path to your vertual environment]\bin\activate` to activate your virtual environment
 
-**1.  run `pip install requirements.txt` to install requirements**
+**1.  run `pip install -Ur requirements.txt` to install requirements**
 
 **2. run `python manage.py collectstatic`**
 
