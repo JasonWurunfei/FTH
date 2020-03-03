@@ -5,7 +5,7 @@
 
 - Python 3.8
 - Django 3.0
-- Pygments==2.5.2
+- Pygments 2.5.2
 - django-crispy-forms 1.8.1
 - django-ckeditor 5.9.0
 ---
