@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     # third part packages
     'markdownx',
     'crispy_forms',
+    'ckeditor',
+    'ckeditor_uploader',
 
     # system app
     'blog.apps.BlogConfig',
@@ -49,6 +51,26 @@ INSTALLED_APPS = [
     'likes.apps.LikesConfig',
     'comment.apps.CommentConfig',
 ]
+
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Custom',
+        'toolbar_Custom':[
+            [
+                'Styles', 'Format','Bold', 'CodeSnippet', 'Italic', 'Underline',
+                'Strike', 'Subscript', 'Superscript', 'Table',
+                'HorizontalRule', 'Smiley', 'SpecialChar',
+                'Image', 'links', 'TextColor', 'BGColor','SpecialChar',
+                'SpellChecker', 'Undo', 'Redo','Source',
+            ],
+        ],
+        'width': '110%',
+        'height': '80%',
+        'extraPlugins':'codesnippet',
+    },
+}
+CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
+CKEDITOR_UPLOAD_PATH = 'uploads/'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

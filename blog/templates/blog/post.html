@@ -38,7 +38,7 @@
     <div id="blog" class="container">
       <div class="text-muted text-left" style="margin-top: 4rem"> {{ post_detail.user }} {{ post_detail.created_date }}</div>
       <p class="card-text" id="post"> {{ post_detail.formatted_markdown|safe }} </p>
-
+      <hr>
       <ul class="nav likes-and-dilikes-bar">
         <li class="nav-item mx-1">
 
@@ -72,9 +72,40 @@
         </li>
       </ul>
     </div>
+    <h2>Leave a comment</h2>
+
+<!--     <script src="https://cdn.ckeditor.com/ckeditor5/17.0.0/classic/ckeditor.js"></script>
+    <div class="container comment-area">
+      <div id="editor"></div>
+      <button class="btn btn-primary ck-editor my-2">Comment</button>
+    </div> -->
+    <form method="POST" action="{% url 'comment:comment' %}">
+      {{ form.media }}
+      {{ form.as_p }}
+      {% csrf_token %}
+      <input type="submit" class="btn btn-primary mb-2" />
+    </form>
+    <hr>
+    <h2>Comment section</h2>
+    <div class="p-4 mb-3 bg-light rounded">
+      {% for comment in comments %}
+        <div class="card mb-4 shadow-sm">
+          <div class="card-header">
+            {{ comment.user }} {{ comment.pub_date }}
+          </div>
+          <div class="card-body">
+            {{ comment.content | safe }}
+          </div>
+        </div>
+      {% endfor %}
+    </div>
   </article>
 
 <style>
+  .ck-content {
+    min-height: 130px;
+  }
+
   .fa {
     font-size: 30px;
     cursor: pointer;
@@ -90,6 +121,11 @@
 
 {% block javascript %}
   <script>
+    ClassicEditor
+    .create( document.querySelector( '#editor' ) )
+    .catch( error => {
+        console.error( error );
+    } );
     function likeFunc(x) {
       x.classList.toggle("fa-thumbs-up");
       let dislike = document.getElementById('dislikes-btn');

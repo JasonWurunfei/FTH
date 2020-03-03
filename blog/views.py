@@ -1,11 +1,14 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from .models import BlogPost
-from .forms import BlogForm
 
+from .forms import BlogForm
+from comment.forms import CommentForm
+
+from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User
 from likes.models import LikesAndDislikes
-from django.contrib.contenttypes.models import ContentType
+from comment.models import Comment
+from .models import BlogPost
 
 from datetime import datetime
 
@@ -16,22 +19,34 @@ def blogsView(request):
 
     return render(request, 'blog/blog.html', {'posts': posts})
 
-
+@login_required
 def blogDetailView(request, pk):
     """Display specific blog posts"""
-    user   = request.user
-    post_detail = get_object_or_404(BlogPost, pk=pk)
-    blogPostType = ContentType.objects.get(app_label='blog', model='blogpost')
-    res = LikesAndDislikes.objects.filter(content_type=blogPostType, object_id=pk)
-    num_of_likes = res.filter(like_type=False).count()
+    user            = request.user
+    post_detail     = get_object_or_404(BlogPost, pk=pk)
+    blogPostType    = ContentType.objects.get(app_label='blog', model='blogpost')
+    res             = LikesAndDislikes.objects.filter(content_type=blogPostType, object_id=pk)
+    num_of_likes    = res.filter(like_type=False).count()
     num_of_dislikes = res.filter(like_type=True).count()
+
+    comments = Comment.objects.filter(content_type=blogPostType, object_id=pk)
+
+    initial_data = {
+        'user': user,
+        'content': "leave your comment here ~",
+        'content_type': blogPostType,
+        'object_id': pk,
+    }
+    form = CommentForm(initial=initial_data)
 
     context = {
         'post_detail'   : post_detail,
         'num_of_likes'  : num_of_likes,
-        'num_of_dislikes'  : num_of_dislikes,
+        'num_of_dislikes': num_of_dislikes,
         'liked': False,
         'disliked': False,
+        'form': form,
+        'comments': comments,
     }
 
     is_done = LikesAndDislikes.objects.filter(

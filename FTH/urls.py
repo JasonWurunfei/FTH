@@ -27,6 +27,8 @@ urlpatterns = [
     path('blog/', include(('blog.urls', 'blog'), namespace='blog')),
     path('accounts/', include(('accounts.urls', 'accounts'), namespace='accounts')),
     path('likes/', include(('likes.urls', 'likes'), namespace='likes')),
+    path('comment/', include(('comment.urls', 'comment'), namespace='comment')),
     url(r'^markdownx/', include('markdownx.urls')),
+    url(r'^ckeditor/', include('ckeditor_uploader.urls')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
