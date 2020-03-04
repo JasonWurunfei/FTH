@@ -5,14 +5,16 @@
   <div class="container">
 
     <ul class="nav" aria-label="breadcrumb">
-      <li class="nav-item">
-        <a class="nav-link active" href="#">Active</a>
+      <li class="nav-item opt">
+        <i class="fa fa-plus-square mt-3 mr-2" aria-hidden="true" onclick="location.href=`{% url 'blog:new_blog' %}`"> new</i>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Link</a>
+      <li class="nav-item opt">
+        <i class="fa fa-calendar mt-3 mr-0" aria-hidden="true" onclick="sortByDate()"> Order by date</i>
+        {% if order == "asc" %}
+          <i class="fa fa-hand-o-up" id="sortOrder" onclick="sortFunc(this)" aria-hidden="true"></i>
+        {% else %}
+          <i class="fa fa-hand-o-up fa-hand-o-down" id="sortOrder" onclick="sortFunc(this)" aria-hidden="true"></i>
+        {% endif %}
       </li>
       <li class="nav-item ml-auto">
         <form class="form-inline my-lg-0">
@@ -41,4 +43,28 @@
 
     <a href="{% url 'blog:new_blog' %}" class="btn btn-primary btn-lg mt-2 mb-5" role="button" aria-pressed="false">post a blog</a>
   </div>
+
+  <style type="text/css">
+    .opt:hover{
+      color:#3F60E2;
+    }
+  </style>
+
+{% endblock %}
+{% block javascript %}
+<script type="text/javascript">
+  function sortFunc(x) {
+    x.classList.toggle("fa-hand-o-down");
+  }
+  
+  function sortByDate() {
+    let order = document.getElementById('sortOrder').classList.contains('fa-hand-o-down');
+    if(order){
+      location.href='/blog/?sortOrder=dec'
+    }else{
+      location.href='/blog/?sortOrder=asc'
+    }
+
+  }
+</script>
 {% endblock %}
