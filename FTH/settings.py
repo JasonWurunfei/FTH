@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'likes.apps.LikesConfig',
     'comment.apps.CommentConfig',
+    'home.apps.HomeConfig',
 ]
 
 CKEDITOR_CONFIGS = {
