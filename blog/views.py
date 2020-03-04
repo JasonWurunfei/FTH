@@ -14,10 +14,13 @@ from datetime import datetime
 
 def blogsView(request):
     """Display all blog posts"""
+    order = request.GET.get('sortOrder')
+    if order == None or order == "dec":
+        posts = BlogPost.objects.all().order_by('-created_date')
+    else:
+        posts = BlogPost.objects.all().order_by('created_date')
 
-    posts = BlogPost.objects.all().order_by('-created_date')
-
-    return render(request, 'blog/blog.html', {'posts': posts})
+    return render(request, 'blog/blog.html', {'posts': posts, 'order': order})
 
 @login_required
 def blogDetailView(request, pk):
