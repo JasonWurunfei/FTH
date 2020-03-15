@@ -1,6 +1,8 @@
 from django.db import models
+from django.contrib.contenttypes.fields import GenericRelation
 from django.contrib.auth.models import User
-
+from likes.models import LikesAndDislikes
+from comment.models import Comment
 # Create your models here.
 from markdownx.models import MarkdownxField
 from markdownx.utils import markdownify
@@ -20,6 +22,9 @@ class BlogPost(DateCreateModMixin):
     user    = models.ForeignKey(User, on_delete=models.CASCADE)
     title   = models.CharField(max_length=50)
     body    = MarkdownxField()
+
+    likes    = GenericRelation(LikesAndDislikes)
+    comments = GenericRelation(Comment)
 
     def formatted_markdown(self):
         

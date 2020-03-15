@@ -62,7 +62,7 @@ CKEDITOR_CONFIGS = {
                 'Strike', 'Subscript', 'Superscript', 'Table',
                 'HorizontalRule', 'Smiley', 'SpecialChar',
                 'Image', 'links', 'TextColor', 'BGColor','SpecialChar',
-                'SpellChecker', 'Undo', 'Redo','Source',
+                'SpellChecker', 'Undo', 'Redo',
             ],
         ],
         'width': '110%',
