@@ -8,7 +8,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User
 from likes.models import LikesAndDislikes
 from comment.models import Comment
-from .models import BlogPost
+from .models import BlogPost, BlogSeries
 
 from datetime import datetime
 
@@ -109,3 +109,9 @@ def editBlogView(request, pk):
 
     post_url = '/blog/new/' + str(pk) + '/'
     return render(request, 'blog/blog_edit.html', {'form': form, 'post_url': post_url})
+
+
+@login_required
+def seriesView(request):
+    all_series = BlogSeries.objects.all()
+    return render(request, 'blog/series.html', {'all_series': all_series})

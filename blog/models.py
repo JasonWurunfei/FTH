@@ -20,7 +20,7 @@ class DateCreateModMixin(models.Model):
 
 class BlogPost(DateCreateModMixin):
     user    = models.ForeignKey(User, on_delete=models.CASCADE)
-    title   = models.CharField(max_length=50)
+    title   = models.CharField(max_length=100)
     body    = MarkdownxField()
 
     likes    = GenericRelation(LikesAndDislikes)
@@ -32,3 +32,15 @@ class BlogPost(DateCreateModMixin):
 
     def body_summary(self):
         return markdownify(self.body[:300] + "...")
+
+class BlogSeries(DateCreateModMixin):
+    user        = models.ForeignKey(User, on_delete=models.CASCADE)
+    blog        = models.ForeignKey(BlogPost, on_delete=models.CASCADE)
+    title       = models.CharField(max_length=100)
+    description = models.CharField(max_length=300)
+
+    background_image = models.ImageField(
+        default='img/header.jpg',
+        upload_to=datetime.now().strftime('backgrounds/%Y/%m/%d')
+    )
+
