@@ -115,3 +115,9 @@ def editBlogView(request, pk):
 def seriesView(request):
     all_series = BlogSeries.objects.all()
     return render(request, 'blog/series.html', {'all_series': all_series})
+
+
+@login_required
+def seriesDetailView(request, pk):
+    series = get_object_or_404(BlogSeries, pk=pk)
+    return render(request, 'blog/series_detail.html', {'series': series})
