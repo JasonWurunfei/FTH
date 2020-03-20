@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 
-from .forms import BlogForm
+from django import forms
+from .forms import BlogForm, SeriesForm
 from comment.forms import CommentForm
 
 from django.contrib.contenttypes.models import ContentType
@@ -116,8 +117,35 @@ def seriesView(request):
     all_series = BlogSeries.objects.all()
     return render(request, 'blog/series.html', {'all_series': all_series})
 
+@login_required
+def newSeriesView(request):
+    user = User.objects.get(id=request.user.id)
+    initial_data = {
+        'user': user,
+    }
+
+    if request.method == "POST":
+        form = SeriesForm(request.POST, user=user)
+        if form.is_valid():
+            data = form.cleaned_data
+            new_series = form.save()
+            data['blogs'].update(series=new_series)
+            return redirect('/')
+        else:
+            print(request.POST)
+    else:
+        form = SeriesForm(initial=initial_data, user=user)
+
+    post_url = '/blog/new/'
+    return render(request, 'blog/series_edit.html', {'form': form})
+
 
 @login_required
 def seriesDetailView(request, pk):
-    series = get_object_or_404(BlogSeries, pk=pk)
-    return render(request, 'blog/series_detail.html', {'series': series})
+    series  = get_object_or_404(BlogSeries, pk=pk)
+    blogs   = series.blogpost_set.all()
+    context = {
+        'series': series,
+        'blogs': blogs
+    }
+    return render(request, 'blog/series_detail.html', context)

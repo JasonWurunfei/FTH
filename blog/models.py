@@ -32,7 +32,7 @@ class BlogSeries(DateCreateModMixin):
 
 class BlogPost(DateCreateModMixin):
     user    = models.ForeignKey(User, on_delete=models.CASCADE)
-    series  = models.ForeignKey(BlogSeries, on_delete=models.DO_NOTHING, null=True)
+    series  = models.ForeignKey(BlogSeries, on_delete=models.DO_NOTHING, null=True, blank=True)
     title   = models.CharField(max_length=100)
     body    = MarkdownxField()
 

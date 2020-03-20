@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
-
+{% block title %}FreeTechHub-series{% endblock %}
 {% block content %}
   <div class="container">
     <div class="row mt-5">
@@ -18,7 +18,7 @@
               </p>
 
               <div class="d-flex justify-content-between align-items-center">
-                <button type="button" class="btn btn-sm btn-primary">View</button>
+                <button type="button" class="btn btn-sm btn-primary" onclick="location.href=`{% url 'blog:series_detail' pk=series.pk %}`">View</button>
                 <small class="text-muted">{{ series.mod_date }}</small>
               </div>
             </div>

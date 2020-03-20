@@ -8,7 +8,7 @@ from blog.models import BlogSeries
 
 # Create your views here.
 def homeView(request):
-    latest_blogs = BlogSeries.objects.all().order_by('-id')[:3]
+    latest_series = BlogSeries.objects.all().order_by('-id')[:3]
 
     top_liked_blog = None
     top_commented_blog =None
@@ -42,7 +42,7 @@ def homeView(request):
     context = {
         'top_liked_blog': top_liked_blog,
         'top_commented_blog': top_commented_blog,
-        'latest_blogs': latest_blogs,
+        'latest_series': latest_series,
     }
 
     return render(request, 'home/index.html', context)

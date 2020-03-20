@@ -9,7 +9,7 @@ from django.contrib.auth.views import LoginView
 # restriction
 from django.contrib.auth.decorators import login_required
 # models
-from blog.models import BlogPost
+from blog.models import BlogPost, BlogSeries
 from django.contrib.auth.models import User
 
 
@@ -28,6 +28,18 @@ def registerView(request):
 
 class MyLoginView(LoginView):
     form_class = LoginForm
+
+
+@login_required
+def profileSeriesView(request, pk):
+    user    = get_object_or_404(User, pk=pk)
+    series_collection  = BlogSeries.objects.filter(user=user)
+
+    context = {
+        'user': user,
+        'series_collection': series_collection,
+    }
+    return render(request, 'registration/profile_series.html', context)
 
 
 @login_required
