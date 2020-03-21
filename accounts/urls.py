@@ -12,5 +12,4 @@ urlpatterns = [
     # AJAX urls
     path('ajax/validate_username/', views.validate_username, name='validate_username'),
     path('ajax/validate_email/', views.validate_email, name='validate_email'),
-    path('ajax/delet_blog/', views.delet_blog, name='delet_blog'),
 ]

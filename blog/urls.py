@@ -12,4 +12,9 @@ urlpatterns = [
     path('series/', views.seriesView, name='series'),
     path('series/<int:pk>/', views.seriesDetailView, name='series_detail'),
     path('series/new/', views.newSeriesView, name='new_series'),
+    path('series/new/<int:pk>/', views.editSeriesView, name='edit_series'),
+
+    # AJAX request
+    path('ajax/delete_blog/', views.delete_blog, name='delete_blog'),
+    path('ajax/delete_series/', views.delete_series, name='delete_series'),
 ]

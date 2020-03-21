@@ -63,7 +63,7 @@
           <div class="container" id="demo-area">
             <div class="row">
               {% for series in series_collection%}
-                <div class="col-4">
+                <div class="col-4" id="series-{{ series.id }}">
                   <div class="card mb-4 shadow-sm">
                     <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
                       <title>Placeholder</title>
@@ -77,8 +77,8 @@
 
                       <div class="d-flex justify-content-between align-items-center">
                         <div class="btn-group">
-                          <button class="btn btn-primary" onclick="location.href=`#`">edit</button>
-                          <button class="btn btn-danger deletion">delet</button>
+                          <button class="btn btn-primary" onclick="location.href=`{% url 'blog:edit_series' pk=series.pk %}`">edit</button>
+                          <button class="btn btn-danger deletion" value="{{ series.id }}" >delet</button>
                         </div>
                         <small class="text-muted ml-2">{{ series.mod_date }}</small>
                       </div>
@@ -101,11 +101,11 @@
 
 <script>
   $('.deletion').on("click",function(){
-    let blogId = this.value
-    console.log(blogId)
+    let seriesId = this.value
+    console.log(seriesId)
     bootbox.confirm({
-      title: "Destroy this blog?",
-      message: "Do you want to destroy this blog? This cannot be undone.",
+      title: "Destroy this Series?",
+      message: "Do you want to destroy this series? This cannot be undone.",
       buttons: {
           cancel: {
               label: '<i class="fa fa-times"></i> Cancel'
@@ -117,17 +117,17 @@
       callback: function (result) {
         if(result){
           $.ajax({
-            url: '/accounts/ajax/delet_blog/',
+            url: '/blog/ajax/delete_series/',
             data: {
-              'blogId': blogId
+              'seriesId': seriesId
             },
             dataType: 'json',
             success: function (data) {
               bootbox.alert({
-                message: "Blog successfully deleted",
+                message: "Series successfully deleted",
                 backdrop: true,
                 callback: function () {
-                  $('#blog-'+data['blogId']).remove()
+                  $('#series-'+data['seriesId']).remove()
                 }
               });
             }
