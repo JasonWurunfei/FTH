@@ -128,7 +128,7 @@ def newSeriesView(request):
     }
 
     if request.method == "POST":
-        form = SeriesForm(request.POST, user=user)
+        form = SeriesForm(request.POST, request.FILES, user=user)
         if form.is_valid():
             data = form.cleaned_data
             new_series = form.save()

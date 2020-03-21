@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-
+{% block title %}FreeTechHub-Home{% endblock %}
 {% block content %}
   <div class="container-flueit">
     <div id="carouselExampleCaptions" class="carousel slide shadow-lg" data-ride="carousel">
@@ -56,9 +56,9 @@
               <image xlink:href="/media/{{ series.background_image }}" width="100%" height="100%"/>
             </svg>
             <div class="card-body">
-              <h4>{{ series.title }}</h4>
+              <h4><a href="{% url 'blog:series_detail' pk=series.pk %}">{{ series.title }}</a></h4>
               <p class="card-text">
-                {{ series.description }}
+                {{ series.description_summary }}
               </p>
 
               <div class="d-flex justify-content-between align-items-center">
