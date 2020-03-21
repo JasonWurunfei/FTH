@@ -20,6 +20,8 @@ from django.conf.urls import url
 
 from home.views import homeView
 from blog import views
+from django.views.generic import TemplateView
+
 from django.conf import settings
 from django.conf.urls.static import static
 
@@ -32,5 +34,7 @@ urlpatterns = [
     path('comment/', include(('comment.urls', 'comment'), namespace='comment')),
     url(r'^markdownx/', include('markdownx.urls')),
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
+
+    path('permission_denied/', TemplateView.as_view(template_name='permission_denied.html')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

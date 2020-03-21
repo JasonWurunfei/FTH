@@ -18,14 +18,26 @@ class DateCreateModMixin(models.Model):
     created_date = models.DateTimeField(default=timezone.now)
     mod_date     = models.DateTimeField(default=timezone.now, blank=True, null=True)
 
+
+class BlogSeries(DateCreateModMixin):
+    user        = models.ForeignKey(User, on_delete=models.CASCADE)
+    title       = models.CharField(max_length=100)
+    description = models.CharField(max_length=300)
+
+    background_image = models.ImageField(
+        default='img/header.jpg',
+        upload_to=datetime.now().strftime('backgrounds/%Y/%m/%d')
+    )
+
+
 class BlogPost(DateCreateModMixin):
     user    = models.ForeignKey(User, on_delete=models.CASCADE)
-    title   = models.CharField(max_length=50)
+    series  = models.ForeignKey(BlogSeries, on_delete=models.SET_NULL, null=True, blank=True)
+    title   = models.CharField(max_length=100)
     body    = MarkdownxField()
 
     likes    = GenericRelation(LikesAndDislikes)
     comments = GenericRelation(Comment)
-
     def formatted_markdown(self):
         
         return markdownify(self.body)

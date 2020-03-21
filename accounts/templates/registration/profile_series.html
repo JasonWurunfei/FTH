@@ -1,12 +1,13 @@
 {% extends "base.html" %}
 
-{% block title %}FreeTechHub-profile{% endblock %}
+{% block title %}FreeTechHub-profile-series{% endblock %}
+
 {% block nav %}
   <nav class="navbar navbar-light bg-light mb-2">
     <div class="container">
       <a class="navbar-brand mb-0 h1" href="{% url 'blog:blog' %}">
         <img src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2349859212,1053714951&fm=26&gp=0.jpg" width="30" height="30" class="d-inline-block align-top" alt="">
-        FreeTechHub
+        FreeTechHub 
       </a>
       <ul class="navbar-nav ml-auto mr-2">
         <li class="nav-item active">
@@ -16,6 +17,7 @@
     </div>
   </nav>
 {% endblock %}
+
 {% block content %}
   <div class="container-fluid">
     <div class="row">
@@ -27,7 +29,7 @@
             <button type="button" class="list-group-item list-group-item-action mt-2" onclick="location.href=`{% url 'blog:blog' %}`">Go view blog</button>
             <button type="button" class="list-group-item list-group-item-action" onclick="location.href=`{% url 'accounts:profile' pk=user.id %}`">My blogs</button>
             <button type="button" class="list-group-item list-group-item-action" onclick="location.href=`{% url 'blog:blog' %}`">Files</button>
-            <button type="button" class="list-group-item list-group-item-action mb-2" onclick="location.href=`series/`">My Series</button>
+            <button type="button" class="list-group-item list-group-item-action mb-2" onclick="location.href=`{% url 'blog:blog' %}`">My Series</button>
           </div>
         </div>
       </div>
@@ -56,29 +58,37 @@
           
           </div>
 
-          <h1>welcome! {{ user.username }}-My Blogs</h1>
+          <h1>welcome! {{ user.username }}-My Series</h1>
 
           <div class="container" id="demo-area">
-            {% for post in posts %}
-              <div class="card shadow bg-white mt-1" id="blog-{{ post.id }}">
-                <div class="card-body">
-                  <h1 class="card-title"> <a href="{% url 'blog:post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
-                  <p class="card-text"> {{ post.body_summary|striptags }} </p>
-                  <div class="row">
-                    <div class="col">
-                      <div>{{ post.user }}</div>
-                      <div>{{ post.created_date }}</div>                      
-                    </div>
-                    <div class="col-3 ml-auto">
-                      <button class="btn btn-primary" onclick="location.href=`{% url 'blog:edit_blog' pk=post.pk %}`">edit</button>
-                      <button class="btn btn-danger deletion" value="{{ post.id }}">delete</button>
+            <div class="row">
+              {% for series in series_collection%}
+                <div class="col-4" id="series-{{ series.id }}">
+                  <div class="card mb-4 shadow-sm">
+                    <svg class="bd-placeholder-img card-img-top" width="100%" height="225" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Thumbnail">
+                      <title>Placeholder</title>
+                      <image xlink:href="/media/{{ series.background_image }}" width="100%" height="100%"/>
+                    </svg>
+                    <div class="card-body">
+                      <h4><a href="{% url 'blog:series_detail' pk=series.pk %}">{{ series.title }}</a></h4>
+                      <p class="card-text">
+                        {{ series.description }}
+                      </p>
+
+                      <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                          <button class="btn btn-primary" onclick="location.href=`{% url 'blog:edit_series' pk=series.pk %}`">edit</button>
+                          <button class="btn btn-danger deletion" value="{{ series.id }}" >delet</button>
+                        </div>
+                        <small class="text-muted ml-2">{{ series.mod_date }}</small>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-            {% endfor %}
+              {% endfor %}
+            </div>
+            <button class="btn btn-primary ml-auto" onclick="location.href=`{% url 'blog:new_series' %}`">+New series</button>
           </div>
-
         </div>
       </div>
     </div>
@@ -91,11 +101,11 @@
 
 <script>
   $('.deletion').on("click",function(){
-    let blogId = this.value
-    console.log(blogId)
+    let seriesId = this.value
+    console.log(seriesId)
     bootbox.confirm({
-      title: "Destroy this blog?",
-      message: "Do you want to destroy this blog? This cannot be undone.",
+      title: "Destroy this Series?",
+      message: "Do you want to destroy this series? This cannot be undone.",
       buttons: {
           cancel: {
               label: '<i class="fa fa-times"></i> Cancel'
@@ -107,17 +117,17 @@
       callback: function (result) {
         if(result){
           $.ajax({
-            url: '/blog/ajax/delete_blog/',
+            url: '/blog/ajax/delete_series/',
             data: {
-              'blogId': blogId
+              'seriesId': seriesId
             },
             dataType: 'json',
             success: function (data) {
               bootbox.alert({
-                message: "Blog successfully deleted",
+                message: "Series successfully deleted",
                 backdrop: true,
                 callback: function () {
-                  $('#blog-'+data['blogId']).remove()
+                  $('#series-'+data['seriesId']).remove()
                 }
               });
             }

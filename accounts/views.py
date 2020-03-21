@@ -1,15 +1,20 @@
 # request and response
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import JsonResponse
+
 # forms
 from .forms import RegisterForm
 from .forms import LoginForm
+
 # Super view
 from django.contrib.auth.views import LoginView
+
 # restriction
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth import authenticate, login
+
 # models
-from blog.models import BlogPost
+from blog.models import BlogPost, BlogSeries
 from django.contrib.auth.models import User
 
 
@@ -19,7 +24,13 @@ def registerView(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect("/blog")
+            new_user = authenticate(
+                username=form.cleaned_data['username'],
+                password=form.cleaned_data['password1'],
+            )
+            login(request, new_user)
+
+            return redirect("/")
     else:
         form = RegisterForm(request.POST)
 
@@ -28,6 +39,18 @@ def registerView(request):
 
 class MyLoginView(LoginView):
     form_class = LoginForm
+
+
+@login_required
+def profileSeriesView(request, pk):
+    user    = get_object_or_404(User, pk=pk)
+    series_collection  = BlogSeries.objects.filter(user=user)
+
+    context = {
+        'user': user,
+        'series_collection': series_collection,
+    }
+    return render(request, 'registration/profile_series.html', context)
 
 
 @login_required
@@ -60,11 +83,21 @@ def validate_email(request):
     return JsonResponse(data)
 
 
-def delet_blog(request):
+def delete_blog(request):
     blogId  = request.GET.get('blogId', None)
     blog    = get_object_or_404(BlogPost, pk=blogId)
     blog.delete()
     data = {
         'blogId': blogId
+    }
+    return JsonResponse(data)
+
+
+def delete_series(request):
+    seriesId  = request.GET.get('seriesId', None)
+    series    = get_object_or_404(BlogSeries, pk=seriesId)
+    series.delete()
+    data = {
+        'seriesId': seriesId
     }
     return JsonResponse(data)

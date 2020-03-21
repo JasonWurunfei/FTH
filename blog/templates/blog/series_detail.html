@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}FreeTechHub-series-detail{% endblock %}
+{% block content %}
+  <style type="text/css">
+    .jumbotronImage {
+      background-image: url(/media/{{ series.background_image }});
+      background-size: cover;
+    }
+    .bg-trans {
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+  </style>
+
+  <div class="container">
+    <div class="jumbotron p-4 p-md-5 text-white rounded jumbotronImage">
+      <div class="col-md-6 px-0 p-3 mb-2 bg-trans text-white rounded">
+        <h1 class="display-4 font-italic">{{ series.title }}</h1>
+        <p class="lead my-3">
+          {{ series.description }}
+        </p>
+        <p class="lead mb-0">{{ series.mod_date }}</p>
+      </div>
+    </div>
+
+    {% for blog in blogs %}
+      <div class="card shadow bg-white mt-1">
+        <div class="card-body">
+
+          <h1 class="card-title"> <a href="{% url 'blog:post_detail' pk=blog.pk %}">{{ blog.title }}</a></h1>
+          <p class="card-text"> {{ blog.body_summary|striptags }} </p>
+          <div>{{ blog.user }}</div>
+          <div>{{ blog.created_date }}</div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock %}

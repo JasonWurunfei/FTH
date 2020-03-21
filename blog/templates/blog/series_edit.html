@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}FreeTechHub-profile-edit{% endblock %}
+
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+  <div class="container">
+    <form method="POST" action="{{ post_url }}" enctype="multipart/form-data">
+      {% csrf_token %}
+      {% crispy form %}
+    </form>
+  </div>
+{% endblock %}

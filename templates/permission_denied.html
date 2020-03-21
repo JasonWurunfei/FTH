@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% block title %}FreeTechHub-permission denied{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <h2>Permission Denied!!</h2>
+    <h5 id="timer">sending you back in 5 seconds</h5>
+    <p><a href="/">Go back</a></p>
+    <img src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1584794676754&di=a3c5cc96873ced8ef33f436f97a1a41a&imgtype=0&src=http%3A%2F%2Fbpic.588ku.com%2Felement_origin_min_pic%2F17%2F07%2F27%2F7dd8fa8e9a61ed1b289b5c56a8137711.jpg%2521%2Ffwfh%2F804x548%2Fquality%2F90%2Funsharp%2Ftrue%2Fcompress%2Ftrue">
+  </div>
+{% endblock %}
+
+{% block javascript %}
+<script>
+  function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
+  }
+  async function goback() {
+    for (let i = 4; i > 0; i--) {        
+       await sleep(1000);
+       document.getElementById("timer").innerHTML=`sending you back in ${i} seconds`;
+    }
+    window.location.replace("/");
+  }
+  goback()
+</script>
+{% endblock %}

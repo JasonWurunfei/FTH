@@ -4,9 +4,12 @@ from django.contrib.contenttypes.models import ContentType
 from likes.models import LikesAndDislikes
 from comment.models import Comment
 from blog.models import BlogPost
+from blog.models import BlogSeries
 
 # Create your views here.
 def homeView(request):
+    latest_series = BlogSeries.objects.all().order_by('-id')[:3]
+
     top_liked_blog = None
     top_commented_blog =None
     like_max = -1
@@ -38,7 +41,8 @@ def homeView(request):
 
     context = {
         'top_liked_blog': top_liked_blog,
-        'top_commented_blog': top_commented_blog
+        'top_commented_blog': top_commented_blog,
+        'latest_series': latest_series,
     }
 
     return render(request, 'home/index.html', context)

@@ -1,16 +1,19 @@
 from django.shortcuts import render, get_object_or_404, redirect
+from django.http import JsonResponse
 from django.contrib.auth.decorators import login_required
 
-from .forms import BlogForm
+from django import forms
+from .forms import BlogForm, SeriesForm
 from comment.forms import CommentForm
 
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.models import User
 from likes.models import LikesAndDislikes
 from comment.models import Comment
-from .models import BlogPost
+from .models import BlogPost, BlogSeries
 
 from datetime import datetime
+from .decorators import is_owner
 
 def blogsView(request):
     """Display all blog posts"""
@@ -88,6 +91,7 @@ def newBlogView(request):
 
 
 @login_required
+@is_owner(BlogPost)
 def editBlogView(request, pk):
     blog = get_object_or_404(BlogPost, pk=pk)
     initial_data = {
@@ -109,3 +113,102 @@ def editBlogView(request, pk):
 
     post_url = '/blog/new/' + str(pk) + '/'
     return render(request, 'blog/blog_edit.html', {'form': form, 'post_url': post_url})
+
+
+@login_required
+def seriesView(request):
+    all_series = BlogSeries.objects.all()
+    return render(request, 'blog/series.html', {'all_series': all_series})
+
+@login_required
+def newSeriesView(request):
+    user = User.objects.get(id=request.user.id)
+    initial_data = {
+        'user': user,
+    }
+
+    if request.method == "POST":
+        form = SeriesForm(request.POST, user=user)
+        if form.is_valid():
+            data = form.cleaned_data
+            new_series = form.save()
+            data['blogs'].update(series=new_series)
+            return redirect('blog:series')
+        else:
+            print(request.POST)
+    else:
+        form = SeriesForm(initial=initial_data, user=user)
+
+    post_url = '/blog/series/new/'
+    return render(request, 'blog/series_edit.html', {'form': form, 'post_url': post_url})
+
+
+@login_required
+@is_owner(BlogSeries)
+def editSeriesView(request, pk):
+    user = User.objects.get(id=request.user.id)
+    series = get_object_or_404(BlogSeries, pk=pk)
+    blogs = BlogPost.objects.filter(series=series)
+
+    initial_data = {
+        'user': series.user,
+        'title': series.title,
+        'description': series.description,
+        'background_image': series.background_image,
+        'blogs': blogs,
+        'created_date': series.created_date,
+        'mod_date': datetime.now(),
+    }
+
+    if request.method == "POST":
+        form = SeriesForm(request.POST, request.FILES, instance=series, user=user)
+        if form.is_valid():
+            data = form.cleaned_data
+            new_series = form.save()
+
+            # Set all blogs which belongs to this user so that old one will
+            # be removed if not selected. 
+            BlogPost.objects.filter(user=user).update(series=None)
+
+            data['blogs'].update(series=new_series)
+            return redirect('blog:series')
+        else:
+            print(form.errors)
+    else:
+        form = SeriesForm(initial=initial_data, user=user)
+
+    # In order to share the edit template, use post_user to dynamically
+    # change the form action to different url localtion.
+    post_url = '/blog/series/new/' + str(pk) + '/'
+    return render(request, 'blog/series_edit.html', {'form': form, 'post_url': post_url})
+
+
+@login_required
+def seriesDetailView(request, pk):
+    series  = get_object_or_404(BlogSeries, pk=pk)
+    blogs   = series.blogpost_set.all()
+    context = {
+        'series': series,
+        'blogs': blogs
+    }
+    return render(request, 'blog/series_detail.html', context)
+
+
+def delete_blog(request):
+    blogId  = request.GET.get('blogId', None)
+    blog    = get_object_or_404(BlogPost, pk=blogId)
+    blog.delete()
+    data = {
+        'blogId': blogId
+    }
+    return JsonResponse(data)
+
+
+def delete_series(request):
+    seriesId  = request.GET.get('seriesId', None)
+    series    = get_object_or_404(BlogSeries, pk=seriesId)
+    series.delete()
+    data = {
+        'seriesId': seriesId
+    }
+    return JsonResponse(data)
