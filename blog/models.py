@@ -29,6 +29,11 @@ class BlogSeries(DateCreateModMixin):
         upload_to=datetime.now().strftime('backgrounds/%Y/%m/%d')
     )
 
+    def description_summary(self):
+        if len(self.description) > 20:
+            return self.description[:20] + "..."
+        else:
+            return self.description
 
 class BlogPost(DateCreateModMixin):
     user    = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -38,8 +43,8 @@ class BlogPost(DateCreateModMixin):
 
     likes    = GenericRelation(LikesAndDislikes)
     comments = GenericRelation(Comment)
+
     def formatted_markdown(self):
-        
         return markdownify(self.body)
 
     def body_summary(self):
