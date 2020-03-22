@@ -34,7 +34,7 @@ urlpatterns = [
     path('comment/', include(('comment.urls', 'comment'), namespace='comment')),
     url(r'^markdownx/', include('markdownx.urls')),
     url(r'^ckeditor/', include('ckeditor_uploader.urls')),
-
+    url(r'^accounts/', include('allauth.urls')),
     path('permission_denied/', TemplateView.as_view(template_name='permission_denied.html')),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
