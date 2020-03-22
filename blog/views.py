@@ -13,6 +13,7 @@ from comment.models import Comment
 from .models import BlogPost, BlogSeries
 
 from datetime import datetime
+from allauth.account.decorators import verified_email_required
 from .decorators import is_owner
 
 def blogsView(request):
@@ -25,6 +26,8 @@ def blogsView(request):
 
     return render(request, 'blog/blog.html', {'posts': posts, 'order': order})
 
+
+@verified_email_required
 @login_required
 def blogDetailView(request, pk):
     """Display specific blog posts"""
@@ -68,8 +71,9 @@ def blogDetailView(request, pk):
             context['disliked'] = True
 
     return render(request, 'blog/post.html', context)
+
     
-    
+@verified_email_required
 @login_required
 def newBlogView(request):
     user = User.objects.get(id=request.user.id)
@@ -90,6 +94,7 @@ def newBlogView(request):
     return render(request, 'blog/blog_edit.html', {'form': form, 'post_url': post_url})
 
 
+@verified_email_required
 @login_required
 @is_owner(BlogPost)
 def editBlogView(request, pk):
@@ -120,6 +125,7 @@ def seriesView(request):
     all_series = BlogSeries.objects.all()
     return render(request, 'blog/series.html', {'all_series': all_series})
 
+@verified_email_required
 @login_required
 def newSeriesView(request):
     user = User.objects.get(id=request.user.id)
@@ -143,6 +149,7 @@ def newSeriesView(request):
     return render(request, 'blog/series_edit.html', {'form': form, 'post_url': post_url})
 
 
+@verified_email_required
 @login_required
 @is_owner(BlogSeries)
 def editSeriesView(request, pk):
@@ -183,6 +190,7 @@ def editSeriesView(request, pk):
     return render(request, 'blog/series_edit.html', {'form': form, 'post_url': post_url})
 
 
+@verified_email_required
 @login_required
 def seriesDetailView(request, pk):
     series  = get_object_or_404(BlogSeries, pk=pk)

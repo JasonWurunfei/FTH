@@ -25,6 +25,7 @@ SECRET_KEY = 'o)#oocbi8wrnlb503@%jvl@!2(ke_22b261g+geo&b^)1czx6t'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# use '*' so that everyone can access
 ALLOWED_HOSTS = ['*']
 
 
@@ -33,6 +34,7 @@ ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
+    'django.contrib.sites',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -40,6 +42,11 @@ INSTALLED_APPS = [
     'django.forms',
 
     # third part packages
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.github',
+
     'markdownx',
     'crispy_forms',
     'ckeditor',
@@ -52,26 +59,6 @@ INSTALLED_APPS = [
     'comment.apps.CommentConfig',
     'home.apps.HomeConfig',
 ]
-
-CKEDITOR_CONFIGS = {
-    'default': {
-        'toolbar': 'Custom',
-        'toolbar_Custom':[
-            [
-                'Styles', 'Format','Bold', 'CodeSnippet', 'Italic', 'Underline',
-                'Strike', 'Subscript', 'Superscript', 'Table',
-                'HorizontalRule', 'Smiley', 'SpecialChar',
-                'Image', 'links', 'TextColor', 'BGColor','SpecialChar',
-                'SpellChecker', 'Undo', 'Redo',
-            ],
-        ],
-        'width': '110%',
-        'height': '80%',
-        'extraPlugins':'codesnippet',
-    },
-}
-CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
-CKEDITOR_UPLOAD_PATH = 'uploads/'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -140,13 +127,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Shanghai'
 
 USE_I18N = True
 
 USE_L10N = True
 
-USE_TZ = True
+USE_TZ = False
 
 
 # Static files (CSS, JavaScript, Images)
@@ -159,13 +146,56 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
 LOGIN_URL = '/accounts/login'
-LOGIN_REDIRECT_URL = '/blog/'
-LOGOUT_REDIRECT_URL = '/blog/'
+LOGIN_REDIRECT_URL = '/'
+LOGOUT_REDIRECT_URL = '/'
 
 # Third party packages variables
+
+# MarkdownX
 from datetime import datetime
 MARKDOWNX_MEDIA_PATH = datetime.now().strftime('markdownx/%Y/%m/%d')
 MARKDOWNX_MARKDOWN_EXTENSIONS = ['markdown.extensions.extra', 'markdown.extensions.codehilite',]
 
+# Crispy forms
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
+# allauth
+SITE_ID = 1
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'optional'
+AUTHENTICATION_BACKENDS = (
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+# Email settings
+EMAIL_HOST = 'smtp.qq.com'
+EMAIL_PORT = 25
+EMAIL_HOST_USER = 'xxxxxx@qq.com'
+EMAIL_HOST_PASSWORD = ''
+EMAIL_USE_TLS = True
+EMAIL_FROM = 'xxxxxx@qq.com'
+DEFAULT_FROM_EMAIL = 'xxxxxx@qq.com'
+
+# CKEditor
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': 'Custom',
+        'toolbar_Custom':[
+            [
+                'Styles', 'Format','Bold', 'CodeSnippet', 'Italic', 'Underline',
+                'Strike', 'Subscript', 'Superscript', 'Table',
+                'HorizontalRule', 'Smiley', 'SpecialChar',
+                'Image', 'links', 'TextColor', 'BGColor','SpecialChar',
+                'SpellChecker', 'Undo', 'Redo',
+            ],
+        ],
+        'width': '110%',
+        'height': '80%',
+        'extraPlugins':'codesnippet',
+    },
+}
+CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
+CKEDITOR_UPLOAD_PATH = 'uploads/'

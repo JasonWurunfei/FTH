@@ -2,17 +2,22 @@
 
 {% block title %}FreeTechHub-profile{% endblock %}
 {% block nav %}
-  <nav class="navbar navbar-light bg-light mb-2">
+  <nav class="navbar navbar-expand-lg navbar-light bg-light mb-2">
     <div class="container">
       <a class="navbar-brand mb-0 h1" href="/">
         <img src="https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2349859212,1053714951&fm=26&gp=0.jpg" width="30" height="30" class="d-inline-block align-top" alt="">
         FreeTechHub
       </a>
-      <ul class="navbar-nav ml-auto mr-2">
-        <li class="nav-item active">
-          <a class="nav-link" href="{% url 'accounts:logout' %}">Logout <span class="sr-only">(current)</span></a>
-        </li>
-      </ul>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNavDropdown">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <a class="nav-link " href="{% url 'account_logout' %}">Logout <span class="sr-only">(current)</span></a>
+          </li>
+        </ul>
+      </div>
     </div>
   </nav>
 {% endblock %}
@@ -25,9 +30,9 @@
         <div class="container">
           <div class="list-group">
             <button type="button" class="list-group-item list-group-item-action mt-2" onclick="location.href=`{% url 'blog:blog' %}`">Go view blog</button>
-            <button type="button" class="list-group-item list-group-item-action" onclick="location.href=`{% url 'accounts:profile' pk=user.id %}`">My blogs</button>
-            <button type="button" class="list-group-item list-group-item-action" onclick="location.href=`{% url 'blog:blog' %}`">Files</button>
-            <button type="button" class="list-group-item list-group-item-action mb-2" onclick="location.href=`series/`">My Series</button>
+            <button type="button" class="list-group-item list-group-item-action" onclick="location.href=`#`">My blogs</button>
+            <button type="button" class="list-group-item list-group-item-action" onclick="location.href='/accounts/profile/{{ user.id }}/series/'">My Series</button>
+            <button type="button" class="list-group-item list-group-item-action mb-2" onclick="location.href=`{% url 'accounts:settings' %}`">Settings</button>
           </div>
         </div>
       </div>
