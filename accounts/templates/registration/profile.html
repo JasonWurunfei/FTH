@@ -30,9 +30,9 @@
         <div class="container">
           <div class="list-group">
             <button type="button" class="list-group-item list-group-item-action mt-2" onclick="location.href=`{% url 'blog:blog' %}`">Go view blog</button>
-            <button type="button" class="list-group-item list-group-item-action" onclick="location.href=`#`">My blogs</button>
-            <button type="button" class="list-group-item list-group-item-action" onclick="location.href='/accounts/profile/{{ user.id }}/series/'">My Series</button>
-            <button type="button" class="list-group-item list-group-item-action mb-2" onclick="location.href=`{% url 'accounts:settings' %}`">Settings</button>
+            <button type="button" class="list-group-item list-group-item-action" onclick="location.href=`#`">blogs</button>
+            <button type="button" class="list-group-item list-group-item-action" onclick="location.href='/accounts/profile/{{ user.id }}/series/'">Series</button>
+            <button type="button" class="list-group-item list-group-item-action mb-2" onclick="location.href='/accounts/settings/{{ user.id }}/'">Profile</button>
           </div>
         </div>
       </div>
@@ -61,7 +61,7 @@
           
           </div>
 
-          <h1>welcome! {{ user.username }}-My Blogs</h1>
+          <h1>{{ user.username }}-Blogs</h1>
 
           <div class="container" id="demo-area">
             {% for post in posts %}
@@ -71,19 +71,23 @@
                   <p class="card-text"> {{ post.body_summary|striptags }} </p>
                   <div class="row">
                     <div class="col">
-                      <div>{{ post.user }}</div>
+                      <div>{{ post.user.username }}</div>
                       <div>{{ post.created_date }}</div>                      
                     </div>
                     <div class="col-3 ml-auto">
-                      <button class="btn btn-primary" onclick="location.href=`{% url 'blog:edit_blog' pk=post.pk %}`">edit</button>
-                      <button class="btn btn-danger deletion" value="{{ post.id }}">delete</button>
+                      {% if not is_visitor %}
+                        <button class="btn btn-primary" onclick="location.href=`{% url 'blog:edit_blog' pk=post.pk %}`">edit</button>
+                        <button class="btn btn-danger deletion" value="{{ post.id }}">delete</button>
+                      {% endif %}
                     </div>
                   </div>
                 </div>
               </div>
             {% endfor %}
           </div>
-          <button class="btn btn-primary mt-3 ml-auto" onclick="location.href=`{% url 'blog:new_blog' %}`">+New Blog</button>
+          {% if not is_visitor %}
+            <button class="btn btn-primary mt-3 ml-auto" onclick="location.href=`{% url 'blog:new_blog' %}`">+New Blog</button>
+          {% endif %}
         </div>
       </div>
     </div>

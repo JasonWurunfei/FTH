@@ -121,6 +121,7 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+AUTH_USER_MODEL = 'accounts.User'
 
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
@@ -161,6 +162,11 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # allauth
 SITE_ID = 1
+
+ACCOUNT_USER_MODEL_USERNAME_FIELD = 'username'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = True
+
 ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'optional'
@@ -172,12 +178,12 @@ AUTHENTICATION_BACKENDS = (
 )
 # Email settings
 EMAIL_HOST = 'smtp.qq.com'
-EMAIL_PORT = 25
-EMAIL_HOST_USER = 'xxxxxx@qq.com'
-EMAIL_HOST_PASSWORD = ''
-EMAIL_USE_TLS = True
-EMAIL_FROM = 'xxxxxx@qq.com'
-DEFAULT_FROM_EMAIL = 'xxxxxx@qq.com'
+EMAIL_PORT = 465
+EMAIL_HOST_USER = os.environ.get('DJANGO_EMAIL_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('DJANGO_EMAIL_PASSWORD')
+EMAIL_USE_SSL = True
+EMAIL_FROM = os.environ.get('DJANGO_EMAIL_USER')
+DEFAULT_FROM_EMAIL = os.environ.get('DJANGO_EMAIL_USER')
 
 # CKEditor
 CKEDITOR_CONFIGS = {

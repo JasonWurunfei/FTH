@@ -35,7 +35,7 @@
 
           <h1 class="card-title"> <a href="{% url 'blog:post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
           <p class="card-text"> {{ post.body_summary|striptags }} </p>
-          <div>{{ post.user }}</div>
+          <div><a href="{% url 'accounts:profile' pk=post.user.id %}">{{ post.user.username }}</a></div>
           <div>{{ post.created_date }}</div>
         </div>
       </div>

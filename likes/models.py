@@ -3,12 +3,12 @@ from django.db import models
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 
-from django.contrib.auth.models import User
+from django.conf import settings
 
 
 # Create your models here.
 class LikesAndDislikes(models.Model):
-    user            = models.ForeignKey(User, on_delete=models.CASCADE)
+    user            = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     date            = models.DateTimeField(auto_now_add=True)
     like_type       = models.BooleanField()                                     # 0 -> like, 1 -> dislike
 
