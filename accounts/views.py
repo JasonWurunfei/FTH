@@ -101,6 +101,7 @@ def profileSettingsEditView(request, pk):
         if form.is_valid():
             user = form.save()
             return redirect(f"/accounts/settings/{user.id}/")
+
     else:
         form = UserProfileEditForm(instance=user)
 
