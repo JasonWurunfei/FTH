@@ -36,7 +36,18 @@
 
   <article class="markdown-body" style="padding-top: 0px">
     <div id="blog" class="container">
-      <div class="text-muted text-left" style="margin-top: 4rem"> {{ post_detail.user }} {{ post_detail.created_date }}</div>
+      <div class="text-muted text-left" style="margin-top: 4rem">
+        <div class="row">
+          <div class="col-1">
+            {% if post_detail.user.profile_pic %}
+              <img src="{{ post_detail.user.profile_pic.url }}" class="rounded-circle" onclick="location.href=`{% url 'accounts:profile' pk=post_detail.user.id %}`"/>                
+            {% endif %}
+          </div>
+          <div class="col mt-2">
+            <a href="{% url 'accounts:profile' pk=post_detail.user.id %}">{{ post_detail.user.username }}</a> {{ post_detail.created_date }}
+          </div>
+        </div>
+      </div>
       <p class="card-text" id="post"> {{ post_detail.formatted_markdown|safe }} </p>
       <hr>
       <ul class="nav likes-and-dilikes-bar">
@@ -91,7 +102,16 @@
       {% for comment in comments %}
         <div class="card mb-4 shadow-sm">
           <div class="card-header">
-            {{ comment.user }} {{ comment.pub_date }}
+            <div class="row">
+              <div class="col-1">
+                {% if comment.user.profile_pic %}
+                  <img src="{{ user.profile_pic.url }}" class="rounded-circle" onclick="location.href=`{% url 'accounts:profile' pk=comment.user.id %}`"/>                
+                {% endif %}
+              </div>
+              <div class="col mt-2">
+                <a href="{% url 'accounts:profile' pk=comment.user.id %}">{{ comment.user.username }}</a> {{ comment.pub_date }}
+              </div>
+            </div>
           </div>
           <div class="card-body">
             {{ comment.content | safe }}

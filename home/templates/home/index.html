@@ -83,7 +83,7 @@
 
           <h1 class="card-title"> <a href="{% url 'blog:post_detail' pk=top_liked_blog.pk %}">{{ top_liked_blog.title }}</a></h1>
           <p class="card-text"> {{ top_liked_blog.body_summary|striptags }} </p>
-          <div>{{ top_liked_blog.user }}</div>
+          <div><a href="{% url 'accounts:profile' pk=top_liked_blog.user.id %}">{{ top_liked_blog.user.username }}</a></div>
           <div>{{ top_liked_blog.created_date }}</div>
         </div>
       </div>
@@ -100,7 +100,7 @@
 
           <h1 class="card-title"> <a href="{% url 'blog:post_detail' pk=top_commented_blog.pk %}">{{ top_commented_blog.title }}</a></h1>
           <p class="card-text"> {{ top_commented_blog.body_summary|striptags }} </p>
-          <div>{{ top_commented_blog.user }}</div>
+          <div><a href="{% url 'accounts:profile' pk=top_liked_blog.user.id %}">{{ top_commented_blog.user.username }}</a></div>
           <div>{{ top_commented_blog.created_date }}</div>
         </div>
       </div>

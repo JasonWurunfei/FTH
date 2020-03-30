@@ -26,10 +26,10 @@
     {% for blog in blogs %}
       <div class="card shadow bg-white mt-1">
         <div class="card-body">
-
+          
           <h1 class="card-title"> <a href="{% url 'blog:post_detail' pk=blog.pk %}">{{ blog.title }}</a></h1>
           <p class="card-text"> {{ blog.body_summary|striptags }} </p>
-          <div>{{ blog.user }}</div>
+          <div><a href="{% url 'accounts:profile' pk=blog.user.id %}">{{ blog.user.username }}</a></div>
           <div>{{ blog.created_date }}</div>
         </div>
       </div>

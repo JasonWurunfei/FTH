@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.contenttypes.fields import GenericRelation
-from django.contrib.auth.models import User
+from django.conf import settings
 from likes.models import LikesAndDislikes
 from comment.models import Comment
 # Create your models here.
@@ -20,7 +20,7 @@ class DateCreateModMixin(models.Model):
 
 
 class BlogSeries(DateCreateModMixin):
-    user        = models.ForeignKey(User, on_delete=models.CASCADE)
+    user        = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     title       = models.CharField(max_length=100)
     description = models.CharField(max_length=300)
 
@@ -36,7 +36,7 @@ class BlogSeries(DateCreateModMixin):
             return self.description
 
 class BlogPost(DateCreateModMixin):
-    user    = models.ForeignKey(User, on_delete=models.CASCADE)
+    user    = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     series  = models.ForeignKey(BlogSeries, on_delete=models.SET_NULL, null=True, blank=True)
     title   = models.CharField(max_length=100)
     body    = MarkdownxField()

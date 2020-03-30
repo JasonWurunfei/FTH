@@ -32,9 +32,9 @@
         <div class="container">
           <div class="list-group">
             <button type="button" class="list-group-item list-group-item-action mt-2" onclick="location.href=`{% url 'blog:blog' %}`">Go view blog</button>
-            <button type="button" class="list-group-item list-group-item-action" onclick="location.href=`{% url 'accounts:profile' pk=user.id %}`">My blogs</button>
-            <button type="button" class="list-group-item list-group-item-action" onclick="location.href=`#`">My Series</button>
-            <button type="button" class="list-group-item list-group-item-action mb-2" onclick="location.href=`{% url 'accounts:settings' %}`">Settings</button>
+            <button type="button" class="list-group-item list-group-item-action" onclick="location.href=`{% url 'accounts:profile' pk=user.id %}`">blogs</button>
+            <button type="button" class="list-group-item list-group-item-action" onclick="location.href=`#`">Series</button>
+            <button type="button" class="list-group-item list-group-item-action mb-2" onclick="location.href='/accounts/settings/{{ user.id }}/'">Profile</button>
           </div>
         </div>
       </div>
@@ -63,7 +63,7 @@
           
           </div>
 
-          <h1>welcome! {{ user.username }}-My Series</h1>
+          <h1>{{ user.username }}-Series</h1>
 
           <div class="container" id="demo-area">
             <div class="row">
@@ -80,19 +80,23 @@
                         {{ series.description_summary }}
                       </p>
 
-                      <div class="d-flex justify-content-between align-items-center">
-                        <div class="btn-group">
-                          <button class="btn btn-primary" onclick="location.href=`{% url 'blog:edit_series' pk=series.pk %}`">edit</button>
-                          <button class="btn btn-danger deletion" value="{{ series.id }}" >delet</button>
+                      {% if not is_visitor %}
+                        <div class="d-flex justify-content-between align-items-center">
+                          <div class="btn-group">
+                            <button class="btn btn-primary" onclick="location.href=`{% url 'blog:edit_series' pk=series.pk %}`">edit</button>
+                            <button class="btn btn-danger deletion" value="{{ series.id }}" >delet</button>
+                          </div>
+                          <small class="text-muted ml-2">{{ series.mod_date }}</small>
                         </div>
-                        <small class="text-muted ml-2">{{ series.mod_date }}</small>
-                      </div>
+                      {% endif %}
                     </div>
                   </div>
                 </div>
               {% endfor %}
             </div>
-            <button class="btn btn-primary ml-auto" onclick="location.href=`{% url 'blog:new_series' %}`">+New series</button>
+            {% if not is_visitor %}
+              <button class="btn btn-primary ml-auto" onclick="location.href=`{% url 'blog:new_series' %}`">+New series</button>
+            {% endif %}
           </div>
         </div>
       </div>

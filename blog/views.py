@@ -7,7 +7,9 @@ from .forms import BlogForm, SeriesForm
 from comment.forms import CommentForm
 
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
+from accounts.models import User
+
 from likes.models import LikesAndDislikes
 from comment.models import Comment
 from .models import BlogPost, BlogSeries
