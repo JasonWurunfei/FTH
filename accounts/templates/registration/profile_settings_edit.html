@@ -90,7 +90,7 @@
             <hr>
             <p>{{ user.bio }}</p>
             
-            <form method="POST" action="/accounts/settings/{{user.id}}/edit/">
+            <form method="POST" action="/accounts/settings/{{user.id}}/edit/" enctype="multipart/form-data">
               {% csrf_token %}
               {% crispy form %}
             </form>
